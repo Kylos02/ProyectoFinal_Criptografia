@@ -16,10 +16,6 @@ def canonicalizar_json(datos):
     return json_string.encode('utf-8')
     
 def crear_y_firmar_transaccion(contraseña=None, destinatario=None, monto=None, nonce=None):
-    """
-    Versión adaptada para GUI: Parámetros opcionales para inputs.
-    Si son None, usa input() CLI. Retorna un dict con resultados.
-    """
     if contraseña is None:
         contraseña = input("Ingresa tu contraseña para desbloquear: ")
     
