@@ -1,0 +1,14 @@
+{
+    "tx": {
+        "from": "0xcde2e3aed05e0e78cf8b22ce20afdcd412e64289",
+        "to": "0x1234abcd",
+        "value": "5",
+        "nonce": 1,
+        "gas_limit": 21000,
+        "data_hex": "",
+        "timestamp": "2025-11-27T00:41:22.217863+00:00"
+    },
+    "sig_scheme": "Ed25519",
+    "signature_b64": "BV17QkV/Q4iBalYkkp2+hiwIyUGo32Uy830Bbb15DR+qNNokLacKswirOIn/AGNXpoFdPghxSjpKaY4MfyQYDg==",
+    "pubkey_b64": "Xy+bufSvVZutFTe1CdgxLi+kx3/U/cr1HHSVMh/qNKw="
+}
