@@ -109,7 +109,7 @@ Implementar desde cero las **funciones criptográficas centrales** de una billet
 
 ```bash
 # Clona este repositorio
-git clone [URL_DEL_REPOSITORIO]
+git clone https://github.com/DanielGarcia654/ProyectoFinal_Criptografia.git
 
 # Navega al directorio del proyecto
 cd ProyectoFinal
