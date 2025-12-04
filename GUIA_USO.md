@@ -84,7 +84,6 @@ graph LR
 
 3. Ingresa una **contraseña segura** cuando se te solicite
    
-   > [!IMPORTANT]
    > **¡NUNCA PIERDAS TU CONTRASEÑA!**  
    > No hay forma de recuperarla. Si la pierdes, perderás acceso a tus fondos.
 
@@ -119,10 +118,10 @@ llave_encriptada = aesgcm.encrypt(nonce, llave_privada, None)
 #### Resultado Esperado
 
 ```
-✅ EXITO, billetera creada y guardada en 'keystore.json'
+✅ Éxito. Billetera creada y guardada en 'keystore.json'
 📍 Dirección: 0xcde2e3aed05e0e78cf8b22ce20afdcd412e64289
 🔑 Llave Pública (Base64): Xy+bufSvVZutFTe1CdgxLi+kx3/U/cr1HHSVMh/qNKw=
-⚠️  NO PIERDAS TU CONTRASEÑA O PERDERAS ACCESO A TUS FONDOS.
+⚠️ NO PIERDAS TU CONTRASEÑA O PERDERAS ACCESO A TUS FONDOS.
 ```
 
 ---
