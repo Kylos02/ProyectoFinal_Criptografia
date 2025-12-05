@@ -11,9 +11,9 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 NOMBRE_ARCHIVO_CLAVES = "keystore.json"
 
 def generar_direccion(bytes_publicos):
-    digest=hashlib.sha256(bytes_publicos).digest()
-    direccion_bytes=digest[:20]
-    return "0x"+direccion_bytes.hex()
+    sha256_hash=hashlib.sha256(bytes_publicos).digest()
+    direccion_bytes=sha256_hash[-20:]
+    return "0x" + direccion_bytes.hex()
 
 def crear_billetera():
     print("*Configuración inicial de sistema de billetera fría")
