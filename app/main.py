@@ -5,9 +5,7 @@ import json
 import shutil
 import customtkinter as ctk
 from tkinter import messagebox
-import billetera
-import transaccion
-import verificador
+import billetera, transaccion, verificador
 
 
 ctk.set_appearance_mode("dark") 
@@ -58,7 +56,12 @@ class AppBilleteraCrypto:
             marco.pack(fill="both", expand=True, padx=10, pady=10)
             self.marcos[pestana.lower()] = marco
         self.refrescar_carpetas()
-        #self.agregar_registro("Aplicación iniciada")
+        self.agregar_registro("Aplicación iniciada")
+    
+    def agregar_registro(self, texto):
+        linea=f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {texto}\n"
+        with open(ARCHIVO_REGISTROS, "a",encoding="utf-8") as f:
+            f.write(linea)
 
     def ver_registros(self):
         "Abre el archivo de registros con el editor predeterminado"
