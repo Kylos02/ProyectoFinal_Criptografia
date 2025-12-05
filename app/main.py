@@ -57,7 +57,7 @@ class AppBilleteraCrypto:
             marco = ctk.CTkScrollableFrame(self.vista_pestanas.tab(pestana))
             marco.pack(fill="both", expand=True, padx=10, pady=10)
             self.marcos[pestana.lower()] = marco
-        #self.refrescar_carpetas()
+        self.refrescar_carpetas()
         #self.agregar_registro("Aplicación iniciada")
 
     def ver_registros(self):
@@ -70,7 +70,36 @@ class AppBilleteraCrypto:
         except:
             subprocess.Popen(["notepad", os.path.abspath(ARCHIVO_REGISTROS)])
 
+    def refrescar_carpetas(self):
+        # Mapeo de carpetas físicas a pestañas lógicas
+        carpetas={"outbox": "Salida", "inbox": "Entrada", "verified": "Verificados"}
+        for carpeta,nombre_pestana in carpetas.items():
+            ruta=carpeta
+            if not os.path.exists(ruta):
+                os.makedirs(ruta)
+            marco=self.marcos[nombre_pestana.lower()]
+            for widget in marco.winfo_children():
+                widget.destroy()
+            archivos=[a for a in os.listdir(ruta) if a.endswith(".json")]
+            if not archivos:
+                ctk.CTkLabel(marco, text="Carpeta vacía", text_color="gray").pack(pady=20)
+            else:
+                for archivo in sorted(archivos):
+                    ruta_archivo = os.path.join(ruta, archivo)
+                    estadisticas=os.stat(ruta_archivo)
+                    tamano= f"{estadisticas.st_size:,} B"
+                    fecha_mod=datetime.datetime.fromtimestamp(estadisticas.st_mtime).strftime("%Y-%m-%d %H:%M")
+                    ctk.CTkLabel(marco, text=f"{archivo}  |  {tamano}  |  {fecha_mod}", 
+                                anchor="w",font=ctk.CTkFont(size=11)).pack(fill="x", padx=15, pady=2)
+
     ## def actualizar_estado
+    def actualizar_estado(self, direccion=None):
+        if direccion:
+            self.direccion_actual=direccion
+            self.etiqueta_estado.configure(text=f"Dirección: {direccion[:10]}...",text_color="#00ff00")
+        else:
+            self.direccion_actual=None
+            self.etiqueta_estado.configure(text="Sin billetera cargada", text_color="white")
     
     def opcion1(self): ###
         dialogo=ctk.CTkInputDialog(text="Define una contraseña segura:", title="Crear Billetera")
@@ -96,7 +125,6 @@ class AppBilleteraCrypto:
         else:
             messagebox.showerror("Error", resultado["error"])
     
-
     #### def enviar_tx_auto
     def enviar_tx_auto(self):
         if not self.direccion_actual:
