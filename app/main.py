@@ -131,8 +131,42 @@ class AppBilleteraCrypto:
     #### def enviar_tx_auto
     def enviar_tx_auto(self):
         if not self.direccion_actual:
-            messagebox.showerror("Error", "No hay billetera cargada")
+            messagebox.showwarning("Error", "Primero carga o crea una billetera")
             return
+
+        # Diálogos
+        dialogo_destino=ctk.CTkInputDialog(text="Dirección destino (to):", title="Enviar TX")
+        dir_destino=dialogo_destino.get_input()
+        if not dir_destino: return
+        dialogo_monto = ctk.CTkInputDialog(text="Cantidad a enviar:", title="Enviar TX")
+        monto = dialogo_monto.get_input()
+        if not monto: return
+
+        # Nonce automático
+        nonces = {}
+        if os.path.exists("base_datos_nonces.json"):
+            with open("base_datos_nonces.json", "r") as f:
+                nonces=json.load(f)
+        ultimo_nonce=nonces.get(self.direccion_actual, -1)
+        numero_unico=ultimo_nonce + 1
+        dialogo_contra= ctk.CTkInputDialog(text="Contraseña para firmar:", title="Firmar Transacción")
+        contra =dialogo_contra.get_input()
+        if not contra: return
+        resultado= transaccion.crear_y_firmar_transaccion(contra, dir_destino, monto, str(numero_unico))
+        if not resultado["exito"]:
+            messagebox.showerror("Error", resultado["error"])
+            return
+        try:
+            shutil.copy2(resultado["archivo"], "inbox/")
+            self.agregar_registro(f"TX enviada y copiada a bandeja de entrada: {os.path.basename(resultado['archivo'])}")
+            messagebox.showinfo("Éxito",
+                f"Transacción enviada automáticamente!\n"
+                f"Archivo: {os.path.basename(resultado['archivo'])}\n"
+                f"Nonce: {numero_unico}\n"
+                f"Copiada a bandeja de entrada para verificación")
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudo copiar a bandeja de entrada: {e}")
+        self.refrescar_carpetas()
 
     
     def opcion4(self):
