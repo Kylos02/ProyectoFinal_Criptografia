@@ -89,11 +89,12 @@ def crear_billetera(contraseña,request=None):
         resultado["error"]= f"Error: {str(e)}"
     return resultado
 
-def cargar_billetera():
-    print(f"\nCargar billetera ({NOMBRE_ARCHIVO_CLAVES})")
+def cargar_billetera(contraseña,request=None):
+    resultado = {"exito": False, "mensaje": "", "direccion": "", "error": ""}
+
     if not os.path.exists(NOMBRE_ARCHIVO_CLAVES):
-        print("Error: No existe el archivo keystore.json.")
-        return None
+        resultado["error"]="No existe keystore.json"
+        return None, resultado
 
     try:
         with open(NOMBRE_ARCHIVO_CLAVES,"r") as f:
